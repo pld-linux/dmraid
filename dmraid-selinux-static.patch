@@ -1,0 +1,10 @@
+--- dmraid/tools/Makefile.in~	2005-02-21 19:36:32.912447208 +0100
++++ dmraid/tools/Makefile.in	2005-02-21 19:36:32.912447208 +0100
+@@ -38,6 +38,7 @@
+ 	DMRAIDLIBS += -rdynamic
+ else
+ 	LD_FLAGS += -static
++	DMRAIDLIBS += -lselinux
+ endif
+ 
+ .PHONY: install_dmraid_tools remove_dmraid_tools
