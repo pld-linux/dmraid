@@ -1,3 +1,7 @@
+#
+# Conditional build:
+%bcond_without	initrd	# without initrd version
+#
 Summary:	Device-mapper RAID tool
 Summary(pl):	Narzêdzie do RAID-u opartego o device-mapper
 Name:		dmraid
@@ -12,7 +16,7 @@ URL:		http://people.redhat.com/~heinzm/sw/dmraid/
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	device-mapper-devel
-BuildRequires:	device-mapper-static
+%{?with_initrd:BuildRequires:	device-mapper-static}
 BuildRequires:	gettext-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -31,10 +35,10 @@ Summary(pl):	Narzêdzie do RAID-u opartego o device-mapper - wersja statyczna
 Group:		Base
 
 %description initrd
-Static version of dmraid
+Statically linked version of dmraid utility.
 
 %description initrd -l pl
-Wersja statyczna dmraid
+Statycznie zlinkowana wersja narzêdzia dmraid.
 
 %prep
 %setup -q -n %{name}
@@ -46,11 +50,15 @@ cp -f /usr/share/automake/config.sub autoconf
 %{__gettextize}
 %{__aclocal}
 %{__autoconf}
-%configure --enable-static_link
-%{__make}
-cp tools/dmraid{,-initrd}
 
+%if %{with initrd}
+%configure \
+	--enable-static_link
+%{__make}
+cp -f tools/dmraid{,-initrd}
 %{__make} clean
+%endif
+
 %configure 
 %{__make}
 
@@ -70,6 +78,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_sbindir}/*
 %{_mandir}/man8/*
 
+%if %{with initrd}
 %files initrd
 %defattr(644,root,root,755)
 %attr(755,root,root) /sbin/*
+%endif
