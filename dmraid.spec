@@ -28,6 +28,7 @@ device-mappera.
 mv */* ./
 
 %build
+cp -f /usr/share/automake/config.sub autoconf
 %{__gettextize}
 %{__aclocal}
 %{__autoconf}
