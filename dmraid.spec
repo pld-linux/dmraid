@@ -38,7 +38,7 @@ Group:		Base
 Statically linked version of dmraid utility.
 
 %description initrd -l pl
-Statycznie zlinkowana wersja narzêdzia dmraid.
+Statycznie skonsolidowana wersja programu narzêdziowego dmraid.
 
 %prep
 %setup -q -n %{name}
