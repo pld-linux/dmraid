@@ -1,4 +1,5 @@
-Summary:	Device-mapper RAID tool and library
+Summary:	Device-mapper RAID tool
+Summary(pl):	Narzêdzie do RAID-u opartego o device-mapper
 Name:		dmraid
 Version:	1.0.0
 Release:	0.1
@@ -8,19 +9,25 @@ Source0:	http://people.redhat.com/~heinzm/sw/dmraid/src/%{name}-%{version}-rc4.t
 # Source0-md5:	96ab9ad2891045a28688f84c5329cedc
 URL:		http://people.redhat.com/~heinzm/sw/dmraid/
 BuildRequires:	autoconf
+BuildRequires:	automake
 BuildRequires:	device-mapper-devel
+BuildRequires:	gettext-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 DMRAID supports device discovery, set activation and display of
 properties for ATARAID on Linux >= 2.4 using device-mapper.
 
+%description -l pl
+DMRAID obs³uguje wykrywanie urz±dzeñ, ustawianie aktywacji i
+wy¶wietlanie w³a¶ciwo¶ci ATARAID-u na Linuksie >= 2.4 przy u¿yciu
+device-mappera.
+
 %prep
 %setup -q -n %{name}
 mv */* ./
 
 %build
-
 %{__gettextize}
 %{__aclocal}
 %{__autoconf}
@@ -41,4 +48,4 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc README TODO doc/dmraid_design.txt
 %attr(755,root,root) %{_sbindir}/*
-%attr(644,root,root) %{_mandir}/man8/*
+%{_mandir}/man8/*
