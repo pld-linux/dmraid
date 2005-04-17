@@ -18,7 +18,6 @@ BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	device-mapper-devel
 %{?with_initrd:BuildRequires:	device-mapper-static}
-BuildRequires:	gettext-devel
 %{?with_initrd:BuildRequires:	glibc-static}
 %{?with_initrd:BuildRequires:	libselinux-static}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
