@@ -12,6 +12,7 @@ Group:		Base
 Source0:	http://people.redhat.com/~heinzm/sw/dmraid/src/%{name}-%{version}.rc6.tar.bz2
 # Source0-md5:	8383b009ac61674fae6de442c6dba910
 Patch0:		dmraid-selinux-static.patch
+Patch1:		dmraid-bigendian-fix.patch
 URL:		http://people.redhat.com/~heinzm/sw/dmraid/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -46,10 +47,10 @@ Statycznie skonsolidowana wersja programu narzêdziowego dmraid.
 %setup -q -n %{name}
 mv */* ./
 %patch0 -p1
+%patch1 -p1
 
 %build
 cp -f /usr/share/automake/config.sub autoconf
-%{__gettextize}
 %{__aclocal}
 %{__autoconf}
 
@@ -68,7 +69,7 @@ cp -f tools/dmraid{,-initrd}
 rm -rf $RPM_BUILD_ROOT
 
 install -D tools/dmraid $RPM_BUILD_ROOT%{_sbindir}/dmraid
-install -D tools/dmraid-initrd $RPM_BUILD_ROOT/sbin/dmraid-initrd
+%{?with_initrd:install -D tools/dmraid-initrd $RPM_BUILD_ROOT/sbin/dmraid-initrd}
 install -D man/dmraid.8 $RPM_BUILD_ROOT%{_mandir}/man8/dmraid.8
 
 %clean
