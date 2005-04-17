@@ -11,8 +11,8 @@ License:	GPL
 Group:		Base
 Source0:	http://people.redhat.com/~heinzm/sw/dmraid/src/%{name}-%{version}.rc7.tar.bz2
 # Source0-md5:	2a9375310fae7b51d938dfc5d708a6af
-Patch0:		dmraid-selinux-static.patch
-Patch1:		dmraid-bigendian-fix.patch
+Patch0:		%{name}-selinux-static.patch
+Patch1:		%{name}-bigendian-fix.patch
 URL:		http://people.redhat.com/~heinzm/sw/dmraid/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -62,7 +62,7 @@ cp -f tools/dmraid{,-initrd}
 %{__make} clean
 %endif
 
-%configure 
+%configure
 %{__make}
 
 %install
