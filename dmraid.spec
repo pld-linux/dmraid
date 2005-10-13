@@ -7,7 +7,7 @@ Summary(pl):	Narzêdzie do RAID-u opartego o device-mapper
 Name:		dmraid
 Version:	1.0.0
 %define	_rc rc9
-%define	_rel 0.1
+%define	_rel 1
 Release:	0.%{_rc}.%{_rel}
 License:	GPL
 Group:		Base
