@@ -14,7 +14,6 @@ Group:		Base
 Source0:	http://people.redhat.com/~heinzm/sw/dmraid/src/%{name}-%{version}.%{_rc}.tar.bz2
 # Source0-md5:	668fd3d35e66b3ee0d9ca00c5fb63149
 Patch0:		%{name}-selinux-static.patch
-Patch1:		%{name}-bigendian-fix.patch
 URL:		http://people.redhat.com/~heinzm/sw/dmraid/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -48,7 +47,6 @@ Statycznie skonsolidowana wersja programu narzêdziowego dmraid.
 %setup -q -n %{name}
 mv */* ./
 %patch0 -p2
-#%patch1 -p1 # review. was it just typo fix?
 
 %build
 cp -f /usr/share/automake/config.sub autoconf
