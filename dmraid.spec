@@ -56,13 +56,17 @@ cp -f /usr/share/automake/config.sub autoconf
 %if %{with initrd}
 %configure \
 	--enable-static_link
-%{__make}
+%{__make} \
+	CC="%{__cc}" \
+	CFLAGS="%{rpmcflags}"
 cp -f tools/dmraid{,-initrd}
 %{__make} clean
 %endif
 
 %configure
-%{__make}
+%{__make} \
+	CC="%{__cc}" \
+	CFLAGS="%{rpmcflags}"
 
 %install
 rm -rf $RPM_BUILD_ROOT
