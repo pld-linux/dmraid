@@ -6,13 +6,13 @@ Summary:	Device-mapper RAID tool
 Summary(pl):	Narzêdzie do RAID-u opartego o device-mapper
 Name:		dmraid
 Version:	1.0.0
-%define	_rc rc9
+%define	_rc rc10
 %define	_rel 1
 Release:	0.%{_rc}.%{_rel}
 License:	GPL
 Group:		Base
 Source0:	http://people.redhat.com/~heinzm/sw/dmraid/src/%{name}-%{version}.%{_rc}.tar.bz2
-# Source0-md5:	668fd3d35e66b3ee0d9ca00c5fb63149
+# Source0-md5:	0206f8166bfdc370c4ee8efcb35af111
 Patch0:		%{name}-selinux-static.patch
 URL:		http://people.redhat.com/~heinzm/sw/dmraid/
 BuildRequires:	autoconf
