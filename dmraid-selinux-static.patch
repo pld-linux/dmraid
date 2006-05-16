@@ -5,7 +5,7 @@ diff -ur dmraid/1.0.0.rc7/tools/Makefile.in dmraid.new/1.0.0.rc7/tools/Makefile.
  		DMRAIDLIBS += -rdynamic
  	else
  		LDFLAGS += -static
-+		DMRAIDLIBS += -lselinux
++		DMRAIDLIBS += -lselinux -lsepol
  	endif
  endif
  
