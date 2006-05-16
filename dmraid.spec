@@ -21,6 +21,7 @@ BuildRequires:	device-mapper-devel >= 1.01.01
 %{?with_initrd:BuildRequires:	device-mapper-static}
 %{?with_initrd:BuildRequires:	glibc-static}
 %{?with_initrd:BuildRequires:	libselinux-static}
+%{?with_initrd:BuildRequires:	libsepol-static}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
