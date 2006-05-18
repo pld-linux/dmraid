@@ -3,7 +3,7 @@
 %bcond_without	initrd	# without initrd version
 #
 %define	_rc rc10
-%define	_rel 1.3
+%define	_rel 1.5
 Summary:	Device-mapper RAID tool
 Summary(pl):	Narzêdzie do RAID-u opartego o device-mapper
 Name:		dmraid
@@ -23,6 +23,9 @@ BuildRequires:	device-mapper-devel >= 1.01.01
 %{?with_initrd:BuildRequires:	libselinux-static}
 %{?with_initrd:BuildRequires:	libsepol-static}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+
+%define		specflags_x86_64	-fPIC
+%define		specflags_amd64	-fPIC
 
 %description
 DMRAID supports device discovery, set activation and display of
