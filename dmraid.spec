@@ -34,21 +34,33 @@ wy¶wietlanie w³a¶ciwo¶ci ATARAID-u na Linuksie >= 2.4 przy u¿yciu
 device-mappera.
 
 %package devel
-Summary:	Development libraries and headers for dmraid
+Summary:	Header files for dmraid library
+Summary(pl):	Pliki nag³ówkowe biblioteki dmraid
 Group:		Development/Libraries
 
 %description devel
 dmraid-devel provides a library interface for RAID device discovery,
 RAID set activation and display of properties for ATARAID volumes.
 
+%description devel -l pl
+Ten pakiet udostêpnia interfejs biblioteczny do wykrywania urz±dzeñ
+RAID, w³±czania zestawu RAID i wy¶wietlania w³a¶ciwo¶ci wolumenów
+ATARAID.
+
 %package static
-Summary:	static library for dmraid
+Summary:	Static library for dmraid
+Summary(pl):	Statyczna biblioteka dmraid
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 
 %description static
 dmraid-static provides a library interface for RAID device discovery,
 RAID set activation and display of properties for ATARAID volumes.
+
+%description static -l pl
+Ten pakiet udostêpnia statyczn± bibliotekê do wykrywania urz±dzeñ
+RAID, w³±czania zestawu RAID i wy¶wietlania w³a¶ciwo¶ci wolumenów
+ATARAID.
 
 %package initrd
 Summary:	Device-mapper RAID tool - statically linked version
