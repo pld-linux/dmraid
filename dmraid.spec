@@ -39,6 +39,7 @@ device-mappera.
 Summary:	Header files for dmraid library
 Summary(pl):	Pliki nag³ówkowe biblioteki dmraid
 Group:		Development/Libraries
+Requires:	%{name} = %{version}-%{release}
 
 %description devel
 dmraid-devel provides a library interface for RAID device discovery,
