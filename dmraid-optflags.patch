@@ -1,0 +1,42 @@
+--- dmraid/configure.in.orig	2006-02-17 21:15:43.000000000 +0100
++++ dmraid/configure.in	2006-05-23 00:35:44.244538000 +0200
+@@ -52,7 +52,6 @@
+ if test x$KLIBC != xyes; then
+ 	case "$host_os" in
+ 		linux*)
+-			CFLAGS=-O2
+ 			CLDFLAGS="-Wl,--version-script,.export.sym"
+ 			LD_DEPS=".export.sym"
+ 			SOFLAG="-shared" ;;
+--- dmraid/make.tmpl.in.orig	2006-02-17 17:18:27.000000000 +0100
++++ dmraid/make.tmpl.in	2006-05-23 00:38:24.990584000 +0200
+@@ -52,7 +52,7 @@
+ 
+ SUFFIXES=.c .o .so .a
+ 
+-CFLAGS+=-fPIC -Wall -Wundef -Wcast-align -Wwrite-strings -Winline
++CFLAGS+=-Wall -Wundef -Wcast-align -Wwrite-strings -Winline
+ 
+ ifeq ("@KLIBC@", "yes")
+   # These ones make klibc compiles very loud
+@@ -66,9 +66,7 @@
+ ifeq ("@DEBUG@", "yes")
+   CFLAGS+=-g -fno-omit-frame-pointer -DDEBUG
+ else
+-  ifeq ("@KLIBC@", "no")
+-    CFLAGS+=-O2
+-  else
++  ifeq ("@KLIBC@", "yes")
+     CFLAGS+=-Os
+   endif
+ endif
+--- dmraid/lib/Makefile.in.orig	2006-05-23 00:31:05.387110000 +0200
++++ dmraid/lib/Makefile.in	2006-05-23 00:38:49.340105750 +0200
+@@ -46,6 +46,7 @@
+ 
+ ifeq ("@KLIBC@", "no")
+   ifeq ("@LIB_SO@", "yes")
++    CFLAGS += -fPIC
+     LIB_SHARED=$(top_srcdir)/lib/libdmraid.so
+     TARGETS += $(LIB_SHARED)
+     INSTALL_TARGETS += $(LIB_SHARED)
