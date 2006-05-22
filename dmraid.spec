@@ -3,7 +3,7 @@
 %bcond_without	initrd	# without initrd version
 #
 %define	_rc rc10
-%define	_rel 1.5
+%define	_rel 1.6
 Summary:	Device-mapper RAID tool
 Summary(pl):	Narzêdzie do RAID-u opartego o device-mapper
 Name:		dmraid
