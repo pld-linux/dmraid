@@ -14,6 +14,8 @@ Group:		Base
 Source0:	http://people.redhat.com/~heinzm/sw/dmraid/src/%{name}-%{version}.%{_rc}.tar.bz2
 # Source0-md5:	0206f8166bfdc370c4ee8efcb35af111
 Patch0:		%{name}-selinux-static.patch
+Patch1:		%{name}-fix.patch
+Patch2:		%{name}-optflags.patch
 URL:		http://people.redhat.com/~heinzm/sw/dmraid/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -23,9 +25,6 @@ BuildRequires:	device-mapper-devel >= 1.01.01
 %{?with_initrd:BuildRequires:	libselinux-static}
 %{?with_initrd:BuildRequires:	libsepol-static}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
-
-%define		specflags_x86_64	-fPIC
-%define		specflags_amd64	-fPIC
 
 %description
 DMRAID supports device discovery, set activation and display of
@@ -80,6 +79,8 @@ Statycznie skonsolidowana wersja programu narzêdziowego dmraid.
 %setup -q -n %{name}
 mv */* ./
 %patch0 -p2
+%patch1 -p1
+%patch2 -p1
 
 %build
 cp -f /usr/share/automake/config.sub autoconf
@@ -89,41 +90,44 @@ cp -f /usr/share/automake/config.sub autoconf
 %if %{with initrd}
 %configure \
 	--enable-static_link
-%{__make} \
-	CC="%{__cc}" \
-	CFLAGS="%{rpmcflags}"
+%{__make}
 cp -f tools/dmraid{,-initrd}
 %{__make} clean
 %endif
 
-%configure
-%{__make} \
-	CC="%{__cc}" \
-	CFLAGS="%{rpmcflags}"
+%configure \
+	--enable-shared_lib
+%{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-install -D tools/dmraid $RPM_BUILD_ROOT%{_sbindir}/dmraid
-%{?with_initrd:install -D tools/dmraid-initrd $RPM_BUILD_ROOT/sbin/dmraid-initrd}
-install -D man/dmraid.8 $RPM_BUILD_ROOT%{_mandir}/man8/dmraid.8
+%{__make} install \
+	includedir=$RPM_BUILD_ROOT%{_includedir} \
+	libdir=$RPM_BUILD_ROOT%{_libdir} \
+	mandir=$RPM_BUILD_ROOT%{_mandir} \
+	sbindir=$RPM_BUILD_ROOT%{_sbindir}
 
-install -d $RPM_BUILD_ROOT{%{_includedir}/dmraid,%{_libdir}}
-install include/dmraid/*.h $RPM_BUILD_ROOT%{_includedir}/dmraid
-# install the static library
-install lib/libdmraid.a $RPM_BUILD_ROOT%{_libdir}
+%if %{with initrd}
+install -D tools/dmraid-initrd $RPM_BUILD_ROOT/sbin/dmraid-initrd
+%endif
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%post	-p /sbin/ldconfig
+%postun	-p /sbin/ldconfig
+
 %files
 %defattr(644,root,root,755)
 %doc README TODO doc/dmraid_design.txt
-%attr(755,root,root) %{_sbindir}/*
+%attr(755,root,root) %{_sbindir}/dmraid
+%attr(755,root,root) %{_libdir}/libdmraid.so.*.*.*
 %{_mandir}/man8/*
 
 %files devel
 %defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libdmraid.so
 %{_includedir}/dmraid
 
 %files static
@@ -133,5 +137,5 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with initrd}
 %files initrd
 %defattr(644,root,root,755)
-%attr(755,root,root) /sbin/*
+%attr(755,root,root) /sbin/dmraid-initrd
 %endif
