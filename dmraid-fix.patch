@@ -1,0 +1,19 @@
+--- dmraid/lib/Makefile.in.orig	2006-02-17 17:19:25.000000000 +0100
++++ dmraid/lib/Makefile.in	2006-05-23 00:19:13.798639000 +0200
+@@ -35,7 +35,6 @@
+ 	format/ataraid/pdc.c \
+ 	format/ataraid/sil.c \
+ 	format/ataraid/via.c \
+-	format/ataraid/asr.c \
+ 	format/partition/dos.c
+ 
+ OBJECTS=$(SOURCES:%.c=%.o)
+@@ -66,7 +65,7 @@
+ 	for f in $(INSTALL_TARGETS); \
+ 	do \
+ 		n=$$(basename $${f}) ; \
+-		if [[ "$$n" =~ '.so$$' ]]; then \
++		if echo "$$n" | grep -q '.so$$'; then \
+ 			$(INSTALL) -m 555 $(STRIP) \
+ 				$$f $(libdir)/$${n}.@DMRAID_LIB_VERSION@; \
+ 			$(LN_S) -f $${n}.@DMRAID_LIB_VERSION@ $(libdir)/$${n}; \
