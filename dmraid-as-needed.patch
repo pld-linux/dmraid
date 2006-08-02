@@ -32,7 +32,7 @@
  %.so: $(OBJECTS)
  	$(CC) -shared -Wl,-soname,$(notdir $@).$(DMRAID_LIB_VERSION) \
 -	-Wl,--version-script,.export.sym $(OBJECTS) -o $@
-+	-Wl,--version-script,.export.sym $(DMRAIDLIBS) $(LDFLAGS) $(OBJECTS) -o $@
++	-Wl,--version-script,.export.sym $(LDFLAGS) -o $@ $(OBJECTS) $(DMRAIDLIBS)
  
  $(LIB_STATIC): $(OBJECTS)
  	$(RM) $@
