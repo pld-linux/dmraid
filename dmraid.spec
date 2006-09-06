@@ -93,14 +93,14 @@ cp -f /usr/share/automake/config.sub autoconf
 %if %{with initrd}
 %configure \
 	--enable-static_link
-%{__make}
+%{__make} -j1
 cp -f tools/dmraid{,-initrd}
 %{__make} clean
 %endif
 
 %configure \
 	--enable-shared_lib
-%{__make}
+%{__make} -j1
 
 %install
 rm -rf $RPM_BUILD_ROOT
