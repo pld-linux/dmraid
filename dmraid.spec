@@ -2,17 +2,16 @@
 # Conditional build:
 %bcond_without	initrd	# without initrd version
 #
-%define	_rc rc10
-%define	_rel 1.6
 Summary:	Device-mapper RAID tool
 Summary(pl):	Narzêdzie do RAID-u opartego o device-mapper
 Name:		dmraid
 Version:	1.0.0
-Release:	0.%{_rc}.%{_rel}
+%define	_rc	rc11
+Release:	0.%{_rc}.1
 License:	GPL
 Group:		Base
 Source0:	http://people.redhat.com/~heinzm/sw/dmraid/src/%{name}-%{version}.%{_rc}.tar.bz2
-# Source0-md5:	0206f8166bfdc370c4ee8efcb35af111
+# Source0-md5:	f62b18b7793e0e3b0aff7a5111c1c17e
 Patch0:		%{name}-selinux-static.patch
 Patch1:		%{name}-fix.patch
 Patch2:		%{name}-optflags.patch
