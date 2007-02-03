@@ -1,17 +1,18 @@
 #
 # Conditional build:
 %bcond_without	initrd	# without initrd version
+%bcond_without  selinux # build without SELinux support
 #
 Summary:	Device-mapper RAID tool
 Summary(pl):	Narzêdzie do RAID-u opartego o device-mapper
 Name:		dmraid
 Version:	1.0.0
-%define	_rc	rc11
+%define	_rc	rc13
 Release:	0.%{_rc}.1
 License:	GPL
 Group:		Base
 Source0:	http://people.redhat.com/~heinzm/sw/dmraid/src/%{name}-%{version}.%{_rc}.tar.bz2
-# Source0-md5:	f62b18b7793e0e3b0aff7a5111c1c17e
+# Source0-md5:	a2a8948de7717e2e76a1291fc1daf9d1
 Patch0:		%{name}-selinux-static.patch
 Patch1:		%{name}-fix.patch
 Patch2:		%{name}-optflags.patch
@@ -20,10 +21,12 @@ URL:		http://people.redhat.com/~heinzm/sw/dmraid/
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	device-mapper-devel >= 1.01.01
-%{?with_initrd:BuildRequires:	device-mapper-static >= 1.02.05-0.4}
-%{?with_initrd:BuildRequires:	glibc-static}
-%{?with_initrd:BuildRequires:	libselinux-static}
-%{?with_initrd:BuildRequires:	libsepol-static}
+%if %{with initrd}
+BuildRequires:	device-mapper-static >= 1.02.05-0.4
+BuildRequires:	glibc-static
+%{?with_selinux:BuildRequires:	libselinux-static}
+%{?with_selinux:BuildRequires:	libsepol-static}
+%endif
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -79,7 +82,7 @@ Statycznie skonsolidowana wersja programu narzêdziowego dmraid.
 %prep
 %setup -q -n %{name}
 mv */* ./
-%patch0 -p2
+%{?with_selinux:%patch0 -p2}
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
