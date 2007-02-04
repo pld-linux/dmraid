@@ -1,7 +1,7 @@
 #
 # Conditional build:
 %bcond_without	initrd	# without initrd version
-%bcond_without  selinux # build without SELinux support
+%bcond_without	selinux	# build without SELinux support (needs selinux-disabled device-mapper)
 #
 Summary:	Device-mapper RAID tool
 Summary(pl):	Narzêdzie do RAID-u opartego o device-mapper
