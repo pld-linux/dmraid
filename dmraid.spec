@@ -4,7 +4,7 @@
 %bcond_without	selinux	# build without SELinux support (needs selinux-disabled device-mapper)
 #
 Summary:	Device-mapper RAID tool
-Summary(pl.UTF-8):   Narzędzie do RAID-u opartego o device-mapper
+Summary(pl.UTF-8):	Narzędzie do RAID-u opartego o device-mapper
 Name:		dmraid
 Version:	1.0.0
 %define	_rc	rc13
@@ -40,7 +40,7 @@ device-mappera.
 
 %package devel
 Summary:	Header files for dmraid library
-Summary(pl.UTF-8):   Pliki nagłówkowe biblioteki dmraid
+Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki dmraid
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 
@@ -55,7 +55,7 @@ ATARAID.
 
 %package static
 Summary:	Static library for dmraid
-Summary(pl.UTF-8):   Statyczna biblioteka dmraid
+Summary(pl.UTF-8):	Statyczna biblioteka dmraid
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 
@@ -70,7 +70,7 @@ ATARAID.
 
 %package initrd
 Summary:	Device-mapper RAID tool - statically linked version
-Summary(pl.UTF-8):   Narzędzie do RAID-u opartego o device-mapper - wersja statyczna
+Summary(pl.UTF-8):	Narzędzie do RAID-u opartego o device-mapper - wersja statyczna
 Group:		Base
 
 %description initrd
