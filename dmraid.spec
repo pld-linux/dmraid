@@ -4,7 +4,7 @@
 %bcond_without	selinux	# build without SELinux support (needs selinux-disabled device-mapper)
 #
 Summary:	Device-mapper RAID tool
-Summary(pl):	Narzêdzie do RAID-u opartego o device-mapper
+Summary(pl.UTF-8):   NarzÄ™dzie do RAID-u opartego o device-mapper
 Name:		dmraid
 Version:	1.0.0
 %define	_rc	rc13
@@ -33,14 +33,14 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 DMRAID supports device discovery, set activation and display of
 properties for ATARAID on Linux >= 2.4 using device-mapper.
 
-%description -l pl
-DMRAID obs³uguje wykrywanie urz±dzeñ, ustawianie aktywacji i
-wy¶wietlanie w³a¶ciwo¶ci ATARAID-u na Linuksie >= 2.4 przy u¿yciu
+%description -l pl.UTF-8
+DMRAID obsÅ‚uguje wykrywanie urzÄ…dzeÅ„, ustawianie aktywacji i
+wyÅ›wietlanie wÅ‚aÅ›ciwoÅ›ci ATARAID-u na Linuksie >= 2.4 przy uÅ¼yciu
 device-mappera.
 
 %package devel
 Summary:	Header files for dmraid library
-Summary(pl):	Pliki nag³ówkowe biblioteki dmraid
+Summary(pl.UTF-8):   Pliki nagÅ‚Ã³wkowe biblioteki dmraid
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 
@@ -48,14 +48,14 @@ Requires:	%{name} = %{version}-%{release}
 dmraid-devel provides a library interface for RAID device discovery,
 RAID set activation and display of properties for ATARAID volumes.
 
-%description devel -l pl
-Ten pakiet udostêpnia interfejs biblioteczny do wykrywania urz±dzeñ
-RAID, w³±czania zestawu RAID i wy¶wietlania w³a¶ciwo¶ci wolumenów
+%description devel -l pl.UTF-8
+Ten pakiet udostÄ™pnia interfejs biblioteczny do wykrywania urzÄ…dzeÅ„
+RAID, wÅ‚Ä…czania zestawu RAID i wyÅ›wietlania wÅ‚aÅ›ciwoÅ›ci wolumenÃ³w
 ATARAID.
 
 %package static
 Summary:	Static library for dmraid
-Summary(pl):	Statyczna biblioteka dmraid
+Summary(pl.UTF-8):   Statyczna biblioteka dmraid
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 
@@ -63,21 +63,21 @@ Requires:	%{name}-devel = %{version}-%{release}
 dmraid-static provides a library interface for RAID device discovery,
 RAID set activation and display of properties for ATARAID volumes.
 
-%description static -l pl
-Ten pakiet udostêpnia statyczn± bibliotekê do wykrywania urz±dzeñ
-RAID, w³±czania zestawu RAID i wy¶wietlania w³a¶ciwo¶ci wolumenów
+%description static -l pl.UTF-8
+Ten pakiet udostÄ™pnia statycznÄ… bibliotekÄ™ do wykrywania urzÄ…dzeÅ„
+RAID, wÅ‚Ä…czania zestawu RAID i wyÅ›wietlania wÅ‚aÅ›ciwoÅ›ci wolumenÃ³w
 ATARAID.
 
 %package initrd
 Summary:	Device-mapper RAID tool - statically linked version
-Summary(pl):	Narzêdzie do RAID-u opartego o device-mapper - wersja statyczna
+Summary(pl.UTF-8):   NarzÄ™dzie do RAID-u opartego o device-mapper - wersja statyczna
 Group:		Base
 
 %description initrd
 Statically linked version of dmraid utility.
 
-%description initrd -l pl
-Statycznie skonsolidowana wersja programu narzêdziowego dmraid.
+%description initrd -l pl.UTF-8
+Statycznie skonsolidowana wersja programu narzÄ™dziowego dmraid.
 
 %prep
 %setup -q -n %{name}
