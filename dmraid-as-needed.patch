@@ -10,7 +10,7 @@
 +	ifeq ("@DIETLIBC@", "yes")
 +		DMRAIDLIBS += -ldevmapper_dietc
 +	else
-+		DMRAIDLIBS += -ldevmapper
++		DMRAIDLIBS += -ldevmapper -lz
 +	endif
 +
 +#	ifeq ("@LIBSELINUX@", "yes")
