@@ -21,6 +21,7 @@ URL:		http://people.redhat.com/~heinzm/sw/dmraid/
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	device-mapper-devel >= 1.01.01
+BuildRequires:	zlib-devel
 %if %{with initrd}
 BuildRequires:	device-mapper-static >= 1.02.05-0.4
 BuildRequires:	glibc-static
