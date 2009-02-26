@@ -13,6 +13,8 @@ License:	GPL
 Group:		Base
 Source0:	http://people.redhat.com/~heinzm/sw/dmraid/src/%{name}-%{version}.%{_rc}.tar.bz2
 # Source0-md5:	2602887205a35f89b59eeba3a868150f
+Source1:	%{name}-initramfs-hook
+Source2:	%{name}-initramfs-local-top
 Patch0:		%{name}-selinux-static.patch
 Patch1:		%{name}-fix.patch
 Patch2:		%{name}-optflags.patch
