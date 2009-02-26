@@ -82,6 +82,19 @@ Statically linked version of dmraid utility.
 %description initrd -l pl.UTF-8
 Statycznie skonsolidowana wersja programu narzędziowego dmraid.
 
+%package initramfs
+Summary:	Device-mapper RAID tool - support scripts for initramfs-tools
+Summary(pl.UTF-8):	Narzędzie do RAID-u opartego o device-mapper - skrypty dla initramfs-tools
+Group:		Base
+Requires:	%{name} = %{version}-%{release}
+Requires:	initramfs-tools
+
+%description initramfs
+Device-mapper RAID tool - support scripts for initramfs-tools.
+
+%description initramfs -l pl.UTF-8
+Narzędzie do RAID-u opartego o device-mapper - skrypty dla initramfs-tools.
+
 %prep
 %setup -q -n %{name}
 mv */* ./
@@ -109,6 +122,7 @@ cp -f tools/dmraid{,-initrd}
 
 %install
 rm -rf $RPM_BUILD_ROOT
+install -d $RPM_BUILD_ROOT%{_datadir}/initramfs-tools/{hooks,scripts/local-top}
 
 %{__make} install \
 	includedir=$RPM_BUILD_ROOT%{_includedir} \
@@ -119,6 +133,9 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with initrd}
 install -D tools/dmraid-initrd $RPM_BUILD_ROOT/sbin/dmraid-initrd
 %endif
+
+install %{SOURCE1} $RPM_BUILD_ROOT%{_datadir}/initramfs-tools/hooks/dmraid
+install %{SOURCE2} $RPM_BUILD_ROOT%{_datadir}/initramfs-tools/scripts/local-top/dmraid
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -147,3 +164,8 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) /sbin/dmraid-initrd
 %endif
+
+%files initramfs
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_datadir}/initramfs-tools/hooks/dmraid
+%attr(755,root,root) %{_datadir}/initramfs-tools/scripts/local-top/dmraid
