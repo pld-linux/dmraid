@@ -8,7 +8,7 @@ Summary(pl.UTF-8):	Narzędzie do RAID-u opartego o device-mapper
 Name:		dmraid
 Version:	1.0.0
 %define	_rc	rc15
-Release:	0.%{_rc}.2
+Release:	0.%{_rc}.3
 License:	GPL
 Group:		Base
 Source0:	http://people.redhat.com/~heinzm/sw/dmraid/src/%{name}-%{version}.%{_rc}.tar.bz2
@@ -31,6 +31,8 @@ BuildRequires:	glibc-static
 %{?with_selinux:BuildRequires:	libsepol-static}
 %endif
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+
+%define		_sbindir	/sbin
 
 %description
 DMRAID supports device discovery, set activation and display of
@@ -122,13 +124,17 @@ cp -f tools/dmraid{,-initrd}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{_datadir}/initramfs-tools/{hooks,scripts/local-top}
+install -d $RPM_BUILD_ROOT{/%{_lib},%{_datadir}/initramfs-tools/{hooks,scripts/local-top}}
 
 %{__make} install \
 	includedir=$RPM_BUILD_ROOT%{_includedir} \
 	libdir=$RPM_BUILD_ROOT%{_libdir} \
 	mandir=$RPM_BUILD_ROOT%{_mandir} \
 	sbindir=$RPM_BUILD_ROOT%{_sbindir}
+
+mv $RPM_BUILD_ROOT%{_libdir}/libdmraid.so.* $RPM_BUILD_ROOT/%{_lib}
+ln -sf /%{_lib}/$(cd $RPM_BUILD_ROOT/%{_lib} ; echo libdmraid.so.*.*.*) \
+        $RPM_BUILD_ROOT%{_libdir}/libdmraid.so
 
 %if %{with initrd}
 install -D tools/dmraid-initrd $RPM_BUILD_ROOT/sbin/dmraid-initrd
@@ -147,7 +153,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc README TODO doc/dmraid_design.txt
 %attr(755,root,root) %{_sbindir}/dmraid
-%attr(755,root,root) %{_libdir}/libdmraid.so.*.*.*
+%attr(755,root,root) /%{_lib}/libdmraid.so.*.*.*
 %{_mandir}/man8/*
 
 %files devel
