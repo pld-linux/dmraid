@@ -127,7 +127,7 @@ cp -f /usr/share/automake/config.sub autoconf
 %if %{with initrd}
 %configure \
 	%{?with_dietlibc:CC="diet %{__cc} %{rpmcflags} %{rpmldflags} -static"} \
-	%if %{with selinux} && %{with glibc}
+	%if %{with selinux} && %{without dietlibc}
 	--enable-libselinux \
 	--enable-libsepol \
 	%else
