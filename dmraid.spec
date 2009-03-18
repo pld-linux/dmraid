@@ -1,14 +1,15 @@
 #
 # Conditional build:
-%bcond_without	initrd	# without initrd version
-%bcond_without	selinux	# build without SELinux support (needs selinux-disabled device-mapper)
+%bcond_without	initrd		# without initrd version
+%bcond_without	dietlibc	# build initrd version with static glibc instead of dietlibc
+%bcond_without	selinux		# build without SELinux support (needs selinux-disabled device-mapper)
 #
 Summary:	Device-mapper RAID tool
 Summary(pl.UTF-8):	Narzędzie do RAID-u opartego o device-mapper
 Name:		dmraid
 Version:	1.0.0
 %define	_rc	rc15
-Release:	0.%{_rc}.3
+Release:	0.%{_rc}.4
 License:	GPL
 Group:		Base
 Source0:	http://people.redhat.com/~heinzm/sw/dmraid/src/%{name}-%{version}.%{_rc}.tar.bz2
@@ -19,16 +20,28 @@ Patch0:		%{name}-selinux-static.patch
 Patch1:		%{name}-fix.patch
 Patch2:		%{name}-optflags.patch
 Patch3:		%{name}-as-needed.patch
+Patch4:		%{name}-unsigned.patch
 URL:		http://people.redhat.com/~heinzm/sw/dmraid/
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	device-mapper-devel >= 1.02.02
 BuildRequires:	zlib-devel
 %if %{with initrd}
+	%if %{with dietlibc}
+BuildRequires:	device-mapper-dietlibc
+BuildRequires:	dietlibc-static >= 2:0.31-5
+	%else
 BuildRequires:	device-mapper-static >= 1.02.05-0.4
 BuildRequires:	glibc-static
-%{?with_selinux:BuildRequires:	libselinux-static}
-%{?with_selinux:BuildRequires:	libsepol-static}
+%if %{with selinux}
+BuildRequires:	libselinux-static
+BuildRequires:	libsepol-static
+%endif
+	%endif
+%endif
+%if %{with selinux}
+BuildRequires:	libselinux-devel
+BuildRequires:	libsepol-devel
 %endif
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -104,6 +117,7 @@ mv */* ./
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %build
 cp -f /usr/share/automake/config.sub autoconf
@@ -112,7 +126,16 @@ cp -f /usr/share/automake/config.sub autoconf
 
 %if %{with initrd}
 %configure \
+	%{?with_dietlibc:CC="diet %{__cc} %{rpmcflags} %{rpmldflags} -static"} \
+	%if %{with selinux} && %{with glibc}
+	--enable-libselinux \
+	--enable-libsepol \
+	%else
+	--disable-libselinux \
+	--disable-libsepol \
+	%endif
 	--enable-static_link
+
 %{__make} -j1
 cp -f tools/dmraid{,-initrd}
 %{__make} clean
