@@ -21,6 +21,7 @@ Patch1:		%{name}-fix.patch
 Patch2:		%{name}-optflags.patch
 Patch3:		%{name}-as-needed.patch
 Patch4:		%{name}-unsigned.patch
+Patch5:		%{name}-diet.patch
 URL:		http://people.redhat.com/~heinzm/sw/dmraid/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -118,6 +119,7 @@ mv */* ./
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 
 %build
 cp -f /usr/share/automake/config.sub autoconf
@@ -126,13 +128,15 @@ cp -f /usr/share/automake/config.sub autoconf
 
 %if %{with initrd}
 %configure \
-	%{?with_dietlibc:CC="diet %{__cc} %{rpmcflags} %{rpmldflags} -static"} \
-	%if %{with selinux} && %{without dietlibc}
-	--enable-libselinux \
-	--enable-libsepol \
-	%else
+	%if %{with dietlibc}
+	CC="diet %{__cc} -Os %{rpmldflags} -static" \
 	--disable-libselinux \
 	--disable-libsepol \
+	%else
+		%if %{with selinux}
+	--enable-libselinux \
+	--enable-libsepol \
+		%endif
 	%endif
 	--enable-static_link
 
