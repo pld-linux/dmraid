@@ -91,6 +91,7 @@ ATARAID.
 Summary:	Device-mapper RAID tool - statically linked version
 Summary(pl.UTF-8):	Narzędzie do RAID-u opartego o device-mapper - wersja statyczna
 Group:		Base
+Conflicts:	geninitrd <= 10000.3
 
 %description initrd
 Statically linked version of dmraid utility.
