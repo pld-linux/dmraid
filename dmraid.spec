@@ -130,7 +130,7 @@ cp -f /usr/share/automake/config.sub autoconf
 %if %{with initrd}
 %configure \
 	%if %{with dietlibc}
-	CC="diet %{__cc} -Os %{rpmldflags} -static" \
+	CC="diet %{__cc} %{rpmcflags} %{rpmldflags} -Os -static" \
 	--disable-libselinux \
 	--disable-libsepol \
 	%else
