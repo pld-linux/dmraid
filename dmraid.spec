@@ -141,7 +141,7 @@ cp -f /usr/share/automake/config.sub autoconf
 	--enable-static_link
 
 %{__make} -j1
-cp -f tools/dmraid{,-initrd}
+mv -f tools/dmraid dmraid-initrd
 %{__make} clean
 %endif
 
@@ -164,7 +164,8 @@ ln -sf /%{_lib}/$(cd $RPM_BUILD_ROOT/%{_lib} ; echo libdmraid.so.*.*.*) \
         $RPM_BUILD_ROOT%{_libdir}/libdmraid.so
 
 %if %{with initrd}
-install -D tools/dmraid-initrd $RPM_BUILD_ROOT/sbin/dmraid-initrd
+install -d $RPM_BUILD_ROOT%{_libdir}/initrd
+install dmraid-initrd $RPM_BUILD_ROOT%{_libdir}/initrd/dmraid
 %endif
 
 install %{SOURCE1} $RPM_BUILD_ROOT%{_datadir}/initramfs-tools/hooks/dmraid
@@ -195,7 +196,7 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with initrd}
 %files initrd
 %defattr(644,root,root,755)
-%attr(755,root,root) /sbin/dmraid-initrd
+%attr(755,root,root) %{_libdir}/initrd/dmraid
 %endif
 
 %files initramfs
