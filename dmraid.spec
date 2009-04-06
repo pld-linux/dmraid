@@ -9,7 +9,7 @@ Summary(pl.UTF-8):	Narzędzie do RAID-u opartego o device-mapper
 Name:		dmraid
 Version:	1.0.0
 %define	_rc	rc15
-Release:	0.%{_rc}.4
+Release:	0.%{_rc}.5
 License:	GPL
 Group:		Base
 Source0:	http://people.redhat.com/~heinzm/sw/dmraid/src/%{name}-%{version}.%{_rc}.tar.bz2
@@ -91,7 +91,7 @@ ATARAID.
 Summary:	Device-mapper RAID tool - statically linked version
 Summary(pl.UTF-8):	Narzędzie do RAID-u opartego o device-mapper - wersja statyczna
 Group:		Base
-Conflicts:	geninitrd <= 10000.3
+Conflicts:	geninitrd < 10000.10
 
 %description initrd
 Statically linked version of dmraid utility.
