@@ -1,7 +1,7 @@
 #
 # Conditional build:
 %bcond_without	initrd		# without initrd version
-%bcond_without	dietlibc	# build initrd version with static glibc instead of dietlibc
+%bcond_with	dietlibc	# build initrd version with static glibc instead of dietlibc
 %bcond_without	selinux		# build without SELinux support (needs selinux-disabled device-mapper)
 #
 Summary:	Device-mapper RAID tool
@@ -32,6 +32,7 @@ BuildRequires:	dietlibc-static >= 2:0.31-5
 	%else
 BuildRequires:	device-mapper-static >= 1.02.05-0.4
 BuildRequires:	glibc-static
+BuildRequires:	udev-static
 %if %{with selinux}
 BuildRequires:	libselinux-static
 BuildRequires:	libsepol-static

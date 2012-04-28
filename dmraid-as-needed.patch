@@ -10,7 +10,7 @@
 +	ifeq ("@DIETLIBC@", "yes")
 +		DMRAIDLIBS += -ldevmapper_dietc
 +	else
-+		DMRAIDLIBS += -ldevmapper -lz
++		DMRAIDLIBS += -ldevmapper -lz -ludev -lrt
 +	endif
 +
 +#	ifeq ("@LIBSELINUX@", "yes")
@@ -36,3 +36,14 @@
  
  $(LIB_STATIC): $(OBJECTS)
  	$(RM) $@
+--- dmraid/tools/Makefile.in~	2012-04-28 19:52:38.890744695 +0200
++++ dmraid/tools/Makefile.in	2012-04-28 21:10:18.659323226 +0200
+@@ -30,7 +30,7 @@
+ 	ifeq ("@DIETLIBC@", "yes")
+ 		DMRAIDLIBS += -ldevmapper_dietc
+ 	else
+-		DMRAIDLIBS += -ldevmapper
++		DMRAIDLIBS += -ldevmapper -ludev -lrt
+ 	endif
+ 
+ 	ifeq ("@LIBSELINUX@", "yes")
