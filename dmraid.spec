@@ -9,13 +9,11 @@ Summary(pl.UTF-8):	Narzędzie do RAID-u opartego o device-mapper
 Name:		dmraid
 Version:	1.0.0
 %define	_rc	rc15
-Release:	0.%{_rc}.5
+Release:	0.%{_rc}.6
 License:	GPL
 Group:		Base
 Source0:	http://people.redhat.com/~heinzm/sw/dmraid/src/%{name}-%{version}.%{_rc}.tar.bz2
 # Source0-md5:	2602887205a35f89b59eeba3a868150f
-Source1:	%{name}-initramfs-hook
-Source2:	%{name}-initramfs-local-top
 Patch0:		%{name}-selinux-static.patch
 Patch1:		%{name}-fix.patch
 Patch2:		%{name}-optflags.patch
@@ -99,19 +97,6 @@ Statically linked version of dmraid utility.
 %description initrd -l pl.UTF-8
 Statycznie skonsolidowana wersja programu narzędziowego dmraid.
 
-%package initramfs
-Summary:	Device-mapper RAID tool - support scripts for initramfs-tools
-Summary(pl.UTF-8):	Narzędzie do RAID-u opartego o device-mapper - skrypty dla initramfs-tools
-Group:		Base
-Requires:	%{name} = %{version}-%{release}
-Requires:	initramfs-tools
-
-%description initramfs
-Device-mapper RAID tool - support scripts for initramfs-tools.
-
-%description initramfs -l pl.UTF-8
-Narzędzie do RAID-u opartego o device-mapper - skrypty dla initramfs-tools.
-
 %prep
 %setup -q -n %{name}
 mv */* ./
@@ -152,7 +137,7 @@ mv -f tools/dmraid dmraid-initrd
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{/%{_lib},%{_datadir}/initramfs-tools/{hooks,scripts/local-top}}
+install -d $RPM_BUILD_ROOT/%{_lib}
 
 %{__make} install \
 	includedir=$RPM_BUILD_ROOT%{_includedir} \
@@ -168,9 +153,6 @@ ln -sf /%{_lib}/$(cd $RPM_BUILD_ROOT/%{_lib} ; echo libdmraid.so.*.*.*) \
 install -d $RPM_BUILD_ROOT%{_libdir}/initrd
 install dmraid-initrd $RPM_BUILD_ROOT%{_libdir}/initrd/dmraid
 %endif
-
-install %{SOURCE1} $RPM_BUILD_ROOT%{_datadir}/initramfs-tools/hooks/dmraid
-install %{SOURCE2} $RPM_BUILD_ROOT%{_datadir}/initramfs-tools/scripts/local-top/dmraid
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -199,8 +181,3 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/initrd/dmraid
 %endif
-
-%files initramfs
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_datadir}/initramfs-tools/hooks/dmraid
-%attr(755,root,root) %{_datadir}/initramfs-tools/scripts/local-top/dmraid
