@@ -8,18 +8,17 @@ Summary:	Device-mapper RAID tool
 Summary(pl.UTF-8):	Narzędzie do RAID-u opartego o device-mapper
 Name:		dmraid
 Version:	1.0.0
-%define	_rc	rc15
-Release:	0.%{_rc}.6
-License:	GPL
+%define	subver	rc16.3
+Release:	0.%{subver}.1
+License:	GPL v2+
 Group:		Base
-Source0:	http://people.redhat.com/~heinzm/sw/dmraid/src/%{name}-%{version}.%{_rc}.tar.bz2
-# Source0-md5:	2602887205a35f89b59eeba3a868150f
+Source0:	http://people.redhat.com/~heinzm/sw/dmraid/src/%{name}-%{version}.rc16-3.tar.bz2
+# Source0-md5:	819338fcef98e8e25819f0516722beeb
 Patch0:		%{name}-selinux-static.patch
-Patch1:		%{name}-fix.patch
-Patch2:		%{name}-optflags.patch
-Patch3:		%{name}-as-needed.patch
-Patch4:		%{name}-unsigned.patch
-Patch5:		%{name}-diet.patch
+Patch1:		%{name}-optflags.patch
+Patch2:		%{name}-unsigned.patch
+Patch3:		%{name}-diet.patch
+Patch4:		%{name}-format.patch
 URL:		http://people.redhat.com/~heinzm/sw/dmraid/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -100,13 +99,12 @@ Statycznie skonsolidowana wersja programu narzędziowego dmraid.
 
 %prep
 %setup -q -n %{name}
-mv */* ./
+mv %{version}.*/dmraid/* .
 %{?with_selinux:%patch0 -p2}
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
-%patch5 -p1
 
 %build
 cp -f /usr/share/automake/config.sub autoconf
@@ -141,10 +139,7 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT/%{_lib}
 
 %{__make} install \
-	includedir=$RPM_BUILD_ROOT%{_includedir} \
-	libdir=$RPM_BUILD_ROOT%{_libdir} \
-	mandir=$RPM_BUILD_ROOT%{_mandir} \
-	sbindir=$RPM_BUILD_ROOT%{_sbindir}
+	DESTDIR=$RPM_BUILD_ROOT
 
 mv $RPM_BUILD_ROOT%{_libdir}/libdmraid.so.* $RPM_BUILD_ROOT/%{_lib}
 ln -sf /%{_lib}/$(cd $RPM_BUILD_ROOT/%{_lib} ; echo libdmraid.so.*.*.*) \
@@ -163,10 +158,15 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc README TODO doc/dmraid_design.txt
+%doc CHANGELOG CREDITS KNOWN_BUGS README TODO doc/dmraid_design.txt
+%attr(755,root,root) %{_sbindir}/dmevent_tool
 %attr(755,root,root) %{_sbindir}/dmraid
 %attr(755,root,root) /%{_lib}/libdmraid.so.*.*.*
-%{_mandir}/man8/*
+%attr(755,root,root) %ghost /%{_lib}/libdmraid.so.1
+%attr(755,root,root) %{_libdir}/libdmraid-events-isw.so
+%attr(755,root,root) %{_libdir}/device-mapper/libdmraid-events-isw.so
+%{_mandir}/man8/dmevent_tool.8*
+%{_mandir}/man8/dmraid.8*
 
 %files devel
 %defattr(644,root,root,755)

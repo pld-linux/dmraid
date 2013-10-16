@@ -1,12 +1,12 @@
---- dmraid/configure.in.orig	2006-02-17 21:15:43.000000000 +0100
-+++ dmraid/configure.in	2006-05-23 00:35:44.244538000 +0200
-@@ -52,7 +52,6 @@
- if test x$KLIBC != xyes; then
+--- dmraid/configure.in.orig	2013-10-16 17:12:55.254316687 +0200
++++ dmraid/configure.in	2013-10-16 17:27:29.530946663 +0200
+@@ -76,7 +76,6 @@
+ if test "$KLIBC" != yes; then
  	case "$host_os" in
  		linux*)
 -			CFLAGS=-O2
- 			CLDFLAGS="-Wl,--version-script,.export.sym"
- 			LD_DEPS=".export.sym"
+ 			CLDFLAGS='-Wl,--version-script,$(top_srcdir)/lib/.export.sym'
+ 			LD_DEPS='$(top_srcdir)/lib/.export.sym'
  			SOFLAG="-shared" ;;
 --- dmraid/make.tmpl.in.orig	2006-02-17 17:18:27.000000000 +0100
 +++ dmraid/make.tmpl.in	2006-05-23 00:38:24.990584000 +0200
@@ -30,13 +30,13 @@
      CFLAGS+=-Os
    endif
  endif
---- dmraid/lib/Makefile.in.orig	2006-05-23 00:31:05.387110000 +0200
-+++ dmraid/lib/Makefile.in	2006-05-23 00:38:49.340105750 +0200
-@@ -46,6 +46,7 @@
- 
+--- dmraid/lib/Makefile.in.orig	2013-10-16 17:12:55.267650018 +0200
++++ dmraid/lib/Makefile.in	2013-10-16 17:46:41.204231665 +0200
+@@ -65,6 +65,7 @@
  ifeq ("@KLIBC@", "no")
-   ifeq ("@LIB_SO@", "yes")
-+    CFLAGS += -fPIC
-     LIB_SHARED=$(top_srcdir)/lib/libdmraid.so
-     TARGETS += $(LIB_SHARED)
-     INSTALL_TARGETS += $(LIB_SHARED)
+ 	ifeq ("@STATIC_LINK@", "no")
+ 		TARGETS += $(LIB_SHARED) $(LIB_EVENTS_SHARED)
++		CFLAGS += -fPIC
+ 	endif
+ endif
+ 
