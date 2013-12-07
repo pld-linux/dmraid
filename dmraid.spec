@@ -1,6 +1,6 @@
 #
 # Conditional build:
-%bcond_without	initrd		# without initrd version
+%bcond_with	initrd		# without initrd version
 %bcond_with	dietlibc	# build initrd version with static glibc instead of dietlibc
 %bcond_without	selinux		# build without SELinux support (needs selinux-disabled device-mapper)
 #
@@ -131,7 +131,10 @@ mv -f tools/dmraid dmraid-initrd
 %endif
 
 %configure \
-	--enable-shared_lib
+	--with-usrlibdir=%{_libdir} \
+	--disable-static_link \
+	--enable-led \
+	--enable-intel_led
 %{__make} -j1
 
 %install
