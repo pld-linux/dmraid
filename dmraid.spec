@@ -3,13 +3,14 @@
 %bcond_with	initrd		# without initrd version
 %bcond_with	dietlibc	# build initrd version with static glibc instead of dietlibc
 %bcond_without	selinux		# build without SELinux support (needs selinux-disabled device-mapper)
-#
+
+%define		rel	2
+%define		subver	rc16.3
 Summary:	Device-mapper RAID tool
 Summary(pl.UTF-8):	Narzędzie do RAID-u opartego o device-mapper
 Name:		dmraid
 Version:	1.0.0
-%define	subver	rc16.3
-Release:	0.%{subver}.1
+Release:	0.%{subver}.%{rel}
 License:	GPL v2+
 Group:		Base
 Source0:	http://people.redhat.com/~heinzm/sw/dmraid/src/%{name}-%{version}.rc16-3.tar.bz2
@@ -150,7 +151,7 @@ ln -sf /%{_lib}/$(cd $RPM_BUILD_ROOT/%{_lib} ; echo libdmraid.so.*.*.*) \
 
 %if %{with initrd}
 install -d $RPM_BUILD_ROOT%{_libdir}/initrd
-install dmraid-initrd $RPM_BUILD_ROOT%{_libdir}/initrd/dmraid
+install -p dmraid-initrd $RPM_BUILD_ROOT%{_libdir}/initrd/dmraid
 %endif
 
 %clean
