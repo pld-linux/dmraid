@@ -4,7 +4,7 @@
 %bcond_with	dietlibc	# build initrd version with static glibc instead of dietlibc
 %bcond_without	selinux		# build without SELinux support (needs selinux-disabled device-mapper)
 
-%define		rel	2
+%define		rel	3
 %define		subver	rc16.3
 Summary:	Device-mapper RAID tool
 Summary(pl.UTF-8):	Narzędzie do RAID-u opartego o device-mapper
@@ -15,6 +15,8 @@ License:	GPL v2+
 Group:		Base
 Source0:	http://people.redhat.com/~heinzm/sw/dmraid/src/%{name}-%{version}.rc16-3.tar.bz2
 # Source0-md5:	819338fcef98e8e25819f0516722beeb
+Source1:	dmraid-activation.sh
+Source2:	dmraid-activation.service
 Patch0:		%{name}-selinux-static.patch
 Patch1:		%{name}-optflags.patch
 Patch2:		%{name}-unsigned.patch
@@ -43,6 +45,8 @@ BuildRequires:	libsepol-static
 BuildRequires:	libselinux-devel
 BuildRequires:	libsepol-devel
 %endif
+BuildRequires:	rpmbuild(macros) >= 1.671
+Requires:	systemd-units >= 38
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_sbindir	/sbin
@@ -140,7 +144,7 @@ mv -f tools/dmraid dmraid-initrd
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT/%{_lib}
+install -d $RPM_BUILD_ROOT{/%{_lib},%{systemdunitdir}}
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
@@ -154,15 +158,32 @@ install -d $RPM_BUILD_ROOT%{_libdir}/initrd
 install -p dmraid-initrd $RPM_BUILD_ROOT%{_libdir}/initrd/dmraid
 %endif
 
+# Install systemd unit
+install -p %{SOURCE1} $RPM_BUILD_ROOT/lib/systemd/dmraid-activation
+install -p %{SOURCE2} $RPM_BUILD_ROOT%{systemdunitdir}/dmraid-activation.service
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post	-p /sbin/ldconfig
-%postun	-p /sbin/ldconfig
+%post
+/sbin/ldconfig
+%systemd_post dmraid-activation.service
+
+%preun
+%systemd_preun dmraid-activation.service
+
+%postun
+/sbin/ldconfig
+%systemd_reload
+
+%triggerpostun -- %{name} < 1.0.0-0.rc16.3.3
+%systemd_trigger dmraid-activation.service
 
 %files
 %defattr(644,root,root,755)
 %doc CHANGELOG CREDITS KNOWN_BUGS README TODO doc/dmraid_design.txt
+%attr(755,root,root) /lib/systemd/dmraid-activation
+%{systemdunitdir}/dmraid-activation.service
 %attr(755,root,root) %{_sbindir}/dmevent_tool
 %attr(755,root,root) %{_sbindir}/dmraid
 %attr(755,root,root) /%{_lib}/libdmraid.so.*.*.*
