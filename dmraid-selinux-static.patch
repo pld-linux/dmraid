@@ -2,7 +2,7 @@ diff -ur dmraid/1.0.0.rc7/tools/Makefile.in dmraid.new/1.0.0.rc7/tools/Makefile.
 --- dmraid/1.0.0.rc7/tools/Makefile.in	2005-03-11 12:47:28.000000000 +0000
 +++ dmraid.new/1.0.0.rc7/tools/Makefile.in	2005-04-17 12:35:13.262390032 +0000
 @@ -40,6 +40,13 @@
- 		DMRAIDLIBS += -rdynamic
+ 		LDFLAGS += -rdynamic
  	else
  		LDFLAGS += -static
 +		ifeq ("@LIBSELINUX@", "yes")

@@ -14,7 +14,7 @@ diff -ur dmraid/lib/metadata/reconfig.c dmraid-diet/lib/metadata/reconfig.c
 +++ dmraid-diet/lib/metadata/reconfig.c	2009-03-18 13:06:33.000000000 +0100
 @@ -260,7 +260,7 @@
  
- int
+ static int
  add_dev_to_array(struct lib_context *lc, struct raid_set *rs,
 -		 uint build_metadata, struct raid_dev *hot_spare_rd)
 +		 unsigned int build_metadata, struct raid_dev *hot_spare_rd)

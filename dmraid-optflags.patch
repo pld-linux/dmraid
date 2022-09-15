@@ -12,7 +12,7 @@
 +++ dmraid/make.tmpl.in	2006-05-23 00:38:24.990584000 +0200
 @@ -52,7 +52,7 @@
  
- SUFFIXES=.c .o .so .a
+ SUFFIXES=.c .d .o .so .a
  
 -CFLAGS+=-fPIC -Wall -Wundef -Wcast-align -Wwrite-strings -Winline
 +CFLAGS+=-Wall -Wundef -Wcast-align -Wwrite-strings -Winline
@@ -21,7 +21,7 @@
    # These ones make klibc compiles very loud
 @@ -66,9 +66,7 @@
  ifeq ("@DEBUG@", "yes")
-   CFLAGS+=-g -fno-omit-frame-pointer -DDEBUG
+   CFLAGS+=-g -fno-omit-frame-pointer
  else
 -  ifeq ("@KLIBC@", "no")
 -    CFLAGS+=-O2
